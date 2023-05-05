@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700&display=swap" rel="stylesheet">
+    <style>
+        .hidden{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <p id="hiragana_show" class="kana_show hidden"
+        style="font-family: 'Noto Serif JP', serif; font-size: 150px;"></p>
+    
+    <p id="romanji_ans" class="romanji hidden"></p>
+    
+    <p id="resultado_txt" class="hidden"></p>
+
+    <input type="button" value="Iniciar" id="iniciar_btn" class=""  onclick="crea_hiragana()" >
+    
+    <input type="text" name="respuesta" id="responder_input"  minlength="1" maxlength="3" disabled="true"
+        placeholder="Respuesta"  pattern="[A-Za-z]{3}" required class="hidden">
+    
+    <input type="button" value="Mostrar respuesta" class="hidden" 
+        id="muestra_respuesta_btn" disabled="true" onclick="muestra_respuesta()">
+    
+    <input type="button" value="Responder"  id="responder_btn"
+    class="hidden" disabled="true" onclick="responder()">
+    
+    <input type="button" value="Siguiente" class="hidden" id="siguiente_btn"
+    disabled="true" onclick = "crea_hiragana()">
+</body>
+
+<script>   
+    const hiragana_show = document.getElementById("hiragana_show");
+    const romanji_ans = document.getElementById("romanji_ans");
+    const iniciar_btn = document.getElementById("iniciar_btn");
+    const responder_input = document.getElementById("responder_input");
+    const muestra_respuesta_btn = document.getElementById("muestra_respuesta_btn");
+    const responder_btn = document.getElementById("responder_btn");
+    const siguiente_btn = document.getElementById("siguiente_btn");
+    const resultado_txt = document.getElementById("resultado_txt");
+
+    const hiraganakatakana = [
+        { hiragana: 'あ', katakana: 'ア', romanji: 'a' },
+        { hiragana: 'い', katakana: 'イ', romanji: 'i' },
+        { hiragana: 'う', katakana: 'ウ', romanji: 'u' },
+        { hiragana: 'え', katakana: 'エ', romanji: 'e' },
+        { hiragana: 'お', katakana: 'オ', romanji: 'o' },
+
+        { hiragana: 'か', katakana: 'カ', romanji: 'ka' },
+        { hiragana: 'き', katakana: 'キ', romanji: 'ki' },
+        { hiragana: 'く', katakana: 'ク', romanji: 'ku' },
+        { hiragana: 'け', katakana: 'ケ', romanji: 'ke' },
+        { hiragana: 'こ', katakana: 'コ', romanji: 'ko' },
+
+        { hiragana: 'さ', katakana: 'サ', romanji: 'sa' },
+        { hiragana: 'し', katakana: 'シ', romanji: 'shi' },
+        { hiragana: 'す', katakana: 'ス', romanji: 'su' },
+        { hiragana: 'せ', katakana: 'セ', romanji: 'se' },
+        { hiragana: 'そ', katakana: 'ソ', romanji: 'so' },
+            
+        { hiragana: 'た', katakana: 'タ', romanji: 'ta' },
+        { hiragana: 'ち', katakana: 'チ', romanji: 'chi' },
+        { hiragana: 'つ', katakana: 'ツ', romanji: 'tsu' },
+        { hiragana: 'て', katakana: 'テ', romanji: 'te' },
+        { hiragana: 'と', katakana: 'ト', romanji: 'to' },
+            
+        { hiragana: 'な', katakana: 'ナ', romanji: 'na' },
+        { hiragana: 'に', katakana: 'ニ', romanji: 'ni' }, 
+        { hiragana: 'ぬ', katakana: 'ヌ', romanji: 'nu' }, 
+        { hiragana: 'ね', katakana: 'ネ', romanji: 'ne' }, 
+        { hiragana: 'の', katakana: 'ノ', romanji: 'no' },   
+        
+        { hiragana: 'は', katakana: 'ハ', romanji: 'ha' },
+        { hiragana: 'ひ', katakana: 'ヒ', romanji: 'hi' }, 
+        { hiragana: 'ふ', katakana: 'フ', romanji: 'fu' }, 
+        { hiragana: 'へ', katakana: 'ヘ', romanji: 'he' }, 
+        { hiragana: 'ほ', katakana: 'ホ', romanji: 'ho' }, 
+
+        { hiragana: 'ま', katakana: 'マ', romanji: 'ma' },
+        { hiragana: 'み', katakana: 'ミ', romanji: 'mi' },
+        { hiragana: 'む', katakana: 'ム', romanji: 'mu' },
+        { hiragana: 'め', katakana: 'メ', romanji: 'me' },
+        { hiragana: 'も', katakana: 'モ', romanji: 'mo' },
+
+        { hiragana: 'や', katakana: 'ヤ', romanji: 'ya' },
+        { hiragana: 'ゆ', katakana: 'ユ', romanji: 'yu' },
+        { hiragana: 'よ', katakana: 'ヨ', romanji: 'yo' },
+
+        { hiragana: 'ら', katakana: 'ラ', romanji: 'ra' },
+        { hiragana: 'り', katakana: 'リ', romanji: 'ri' },
+        { hiragana: 'る', katakana: 'ル', romanji: 'ru' },
+        { hiragana: 'れ', katakana: 'レ', romanji: 're' },
+        { hiragana: 'ろ', katakana: 'ロ', romanji: 'ro' },
+
+        { hiragana: 'わ', katakana: 'ワ', romanji: 'wa' },
+        { hiragana: 'を', katakana: 'ヲ', romanji: 'wo' },
+
+        { hiragana: 'ん', katakana: 'ン', romanji: 'n' },
+    ];
+    
+    var mi_hiragana = "";
+    var mi_katakana = "";
+    var mi_romanji = "";
+    
+    function crea_hiragana(){ //Iniciar
+        pick_kana = Math.floor(Math.random() * 46);
+        mi_hiragana = hiraganakatakana [pick_kana] ["hiragana"];
+        mi_katakana = hiraganakatakana [pick_kana] ["katakana"];
+        mi_romanji = hiraganakatakana  [pick_kana] ["romanji"];
+        hiragana_show.innerHTML = mi_hiragana;
+        hiragana_show.classList.remove('hidden');
+        console.log(pick_kana + "" + mi_hiragana + "" + mi_katakana + "" + mi_romanji);
+
+        iniciar_btn.disabled = true;
+        iniciar_btn.classList.add('hidden');
+        responder_input.disabled = false;
+        responder_input.classList.remove('hidden');
+        responder_btn.disabled = false;
+        responder_btn.classList.remove('hidden');
+        muestra_respuesta_btn.disabled = false;
+        muestra_respuesta_btn.classList.remove('hidden');
+        siguiente_btn.disabled = false;
+        siguiente_btn.classList.add('hidden');
+    }
+    function muestra_kana(){
+        kana.innerHTML = mi_hiragana;
+    }
+    function muestra_respuesta(){
+        romanji_ans.innerHTML = mi_romanji;
+        responder_input.disabled = true;
+        responder_btn.disabled = true;
+        muestra_respuesta_btn.disabled = true;
+        siguiente_btn.disabled = false;
+        siguiente_btn.classList.remove('hidden');
+    }
+    function responder(){
+        resultado_txt.classList.remove('hidden');
+        if (responder_input.value === mi_romanji)
+            resultado_txt.innerHTML = "Bueno";
+        else
+            resultado_txt.innerHTML = "Malo. Respuesta: " + mi_romanji;
+
+        responder_input.disabled = true;
+        responder_btn.disabled = true;
+        muestra_respuesta_btn.disabled = true;
+        siguiente_btn.disabled = false;
+        siguiente_btn.classList.remove('hidden');
+    }
+function facildificil(){}
+
+
+/* const hiragana = [
+  'あ', 'い', 'う', 'え', 'お',
+  'か', 'き', 'く', 'け', 'こ',
+  'さ', 'し', 'す', 'せ', 'そ',
+  'た', 'ち', 'つ', 'て', 'と',
+  'な', 'に', 'ぬ', 'ね', 'の',
+  'は', 'ひ', 'ふ', 'へ', 'ほ',
+  'ま', 'み', 'む', 'め', 'も',
+  'や', 'ゆ','よ',
+  'ら', 'り', 'る', 'れ', 'ろ',
+  'わ', 'を',
+  'ん',
+  //'ゔ', 'ゕ', 'ゖ',
+  //'が', 'ぎ', 'ぐ', 'げ', 'ご',
+  //'ざ', 'じ', 'ず', 'ぜ', 'ぞ',
+  //'だ', 'ぢ', 'づ', 'で', 'ど',
+  //'ば', 'び', 'ぶ', 'べ', 'ぼ',
+  //'ぱ', 'ぴ', 'ぷ', 'ぺ', 'ぽ',
+];
+const katakana = [
+  'ア', 'イ', 'ウ', 'エ', 'オ',
+  'カ', 'キ', 'ク', 'ケ', 'コ',
+  'サ', 'シ', 'ス', 'セ', 'ソ',
+  'タ', 'チ', 'ツ', 'テ', 'ト',
+  'ナ', 'ニ', 'ヌ', 'ネ', 'ノ',
+  'ハ', 'ヒ', 'フ', 'ヘ', 'ホ',
+  'マ', 'ミ', 'ム', 'メ', 'モ',
+  'ヤ', 'ユ', 'ヨ',
+  'ラ', 'リ', 'ル', 'レ', 'ロ',
+  'ワ', 'ヲ',
+  'ン',
+  //'ヴ', 'ヷ', 'ヸ', 'ヹ', 'ヺ',
+  //'ガ', 'ギ', 'グ', 'ゲ', 'ゴ',
+  //'ザ', 'ジ', 'ズ', 'ゼ', 'ゾ',
+  //'ダ', 'ヂ', 'ヅ', 'デ', 'ド',
+  //'バ', 'ビ', 'ブ', 'ベ', 'ボ',
+  //'パ', 'ピ', 'プ', 'ペ', 'ポ',
+]; */
+</script>
+</html>
+
+
