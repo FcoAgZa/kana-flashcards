@@ -22,7 +22,8 @@
     
     <p id="resultado_txt" class="hidden"></p>
 
-    <input type="button" value="Iniciar" id="iniciar_btn" class=""  onclick="crea_hiragana()" >
+    <input type="button" value="Estudia hiragana" id="iniciar_btn" class=""  onclick="crea_hiragana()" >
+    <input class="hidden" type="button" value="Estudia katakana" id="iniciar_kata_btn" class=""  onclick="crea_katakana()" >
     
     <input type="text" name="respuesta" id="responder_input"  minlength="1" maxlength="3" disabled="true"
         placeholder="Respuesta"  pattern="[A-Za-z]{3}" required class="hidden">
@@ -38,6 +39,7 @@
 </body>
 
 <script>   
+    const iniciar_kata_btn =document.getElementById("iniciar_kata_btn"); 
     const hiragana_show = document.getElementById("hiragana_show");
     const romanji_ans = document.getElementById("romanji_ans");
     const iniciar_btn = document.getElementById("iniciar_btn");
@@ -109,37 +111,40 @@
     var mi_hiragana = "";
     var mi_katakana = "";
     var mi_romanji = "";
+
+    function show (element){
+        element.disabled = false;
+        element.classList.remove('hidden');
+    }
+    function hide (element){
+        element.disabled = true;
+        element.classList.add('hidden');
+    }
     
     function crea_hiragana(){ //Iniciar
         pick_kana = Math.floor(Math.random() * 46);
         mi_hiragana = hiraganakatakana [pick_kana] ["hiragana"];
-        mi_katakana = hiraganakatakana [pick_kana] ["katakana"];
         mi_romanji = hiraganakatakana  [pick_kana] ["romanji"];
+        console.log(pick_kana + "" + mi_hiragana + "" + mi_romanji);
+        show(hiragana_show);
         hiragana_show.innerHTML = mi_hiragana;
-        hiragana_show.classList.remove('hidden');
-        console.log(pick_kana + "" + mi_hiragana + "" + mi_katakana + "" + mi_romanji);
+        show_arr = [responder_input, responder_btn, muestra_respuesta_btn].forEach(show);
+        hide_arr = [iniciar_btn, siguiente_btn, romanji_ans, resultado_txt ].forEach(hide);
+        responder_input.focus();
+        responder_input.select();
+        responder_input.value = "";
 
-        iniciar_btn.disabled = true;
-        iniciar_btn.classList.add('hidden');
-        responder_input.disabled = false;
-        responder_input.classList.remove('hidden');
-        responder_btn.disabled = false;
-        responder_btn.classList.remove('hidden');
-        muestra_respuesta_btn.disabled = false;
-        muestra_respuesta_btn.classList.remove('hidden');
-        siguiente_btn.disabled = false;
-        siguiente_btn.classList.add('hidden');
     }
-    function muestra_kana(){
-        kana.innerHTML = mi_hiragana;
-    }
+
     function muestra_respuesta(){
+        show_arr = [responder_input, responder_btn, muestra_respuesta_btn].forEach(hide);
         romanji_ans.innerHTML = mi_romanji;
-        responder_input.disabled = true;
-        responder_btn.disabled = true;
-        muestra_respuesta_btn.disabled = true;
-        siguiente_btn.disabled = false;
-        siguiente_btn.classList.remove('hidden');
+        //responder_input.disabled = true;
+        //responder_btn.disabled = true;
+        //muestra_respuesta_btn.disabled = true;
+        show_arr = [romanji_ans, siguiente_btn].forEach(show);
+        //siguiente_btn.disabled = false;
+        //siguiente_btn.classList.remove('hidden');
     }
     function responder(){
         resultado_txt.classList.remove('hidden');
@@ -148,11 +153,13 @@
         else
             resultado_txt.innerHTML = "Malo. Respuesta: " + mi_romanji;
 
-        responder_input.disabled = true;
-        responder_btn.disabled = true;
-        muestra_respuesta_btn.disabled = true;
-        siguiente_btn.disabled = false;
-        siguiente_btn.classList.remove('hidden');
+        show_arr = [responder_input, responder_btn, muestra_respuesta_btn].forEach(hide);
+        show(siguiente_btn);
+        //responder_input.disabled = true;
+        //responder_btn.disabled = true;
+        //muestra_respuesta_btn.disabled = true;
+        //siguiente_btn.disabled = false;
+        //siguiente_btn.classList.remove('hidden');
     }
 function facildificil(){}
 
