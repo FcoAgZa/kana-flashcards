@@ -32,10 +32,10 @@
                 <div class="button_div">
                     <input type="button" id="hiragana_start_btn"
                     value="Hiragana" class=""  
-                    onclick="hiragana_start()" >
+                    onclick="hiragana_start('hiragana')" >
                     <input  type="button" id="katakana_start_btn"  
-                    value="Katakana"  class="hidden"
-                    onclick="katakana_start()" >               
+                    value="Katakana"  class=""
+                    onclick="hiragana_start('katakana')" >               
 
                     <input type="button" id="show_answer_btn" 
                     value="Show Answer"  class="show_answer_btn hidden" 
@@ -46,14 +46,16 @@
         
                     <input type="button" id="hiragana_more_btn"
                     value="One More!"  class="more_btn hidden" 
-                    disabled="true" onclick = "hiragana_start()">
-                    <input type="button" id="katakana_more_btn"
-                    value="One More!"  class="more_btn hidden" 
-                    disabled="true" onclick = "katakana_start()">
+                    disabled="true" onclick = " ">
                 </div>
 
             </div>
         </div>
+    </div>
+    <div class="bottom">
+        <input type="button" value="Try "
+        id="kata_btn" class="bottom_btn hidden"
+        onclick=" ">
     </div>
     <script src="main.js" ></script>
 </body>
