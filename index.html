@@ -17,10 +17,10 @@
                     <h1 id="kana_print"></h1>
                 </div>
 
-                <div id="answer_div" class="answer_div hidden">
+<!--                 <div id="answer_div" class="answer_div hidden">
                     <p id="ans_help_print" class="hidden"></p>
                     <p id="ans_res_print"  class="hidden"></p>
-                </div>
+                </div> -->
                 
                 <div id="input_text_div" class="input_text_div">
                     <input type="text" id="userans_txtinput"              
@@ -37,25 +37,23 @@
                     value="Katakana"  class=""
                     onclick="hiragana_start('katakana')" >               
 
-                    <input type="button" id="show_answer_btn" 
-                    value="Show Answer"  class="show_answer_btn hidden" 
-                    disabled="true" onclick="show_answer()">
                     <input type="button" id="user_answer_btn" 
                     value="Answer"  class="user_answer_btn hidden" 
                     disabled="true" onclick="answer()">
-        
+                    <input type="button" id="show_answer_btn" 
+                    value="Show Answer"  class="show_answer_btn hidden" 
+                    disabled="true" onclick="show_answer()">
+                    
                     <input type="button" id="hiragana_more_btn"
                     value="One More!"  class="more_btn hidden" 
                     disabled="true" onclick = " ">
+                    <input type="button" value="Try "
+                    id="switch_btn" class="bottom_btn hidden"
+                    onclick=" ">
                 </div>
 
             </div>
         </div>
-    </div>
-    <div class="bottom">
-        <input type="button" value="Try "
-        id="kata_btn" class="bottom_btn hidden"
-        onclick=" ">
     </div>
     <script src="main.js" ></script>
 </body>
