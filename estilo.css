@@ -1,8 +1,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700&display=swap');
-/*font-family: 'Noto Serif JP', serif;*/
 @import url('https://fonts.googleapis.com/css2?family=Signika+Negative&display=swap');
-/*font-family: 'Signika Negative', sans-serif;*/
+
 * {
   margin: 0;
   padding: 0;
@@ -38,7 +37,7 @@ body{
   display: none;
 }
 
-.kana_print_div, .input_text_div, .answer_div, .button_div{
+.kana_print_div, .inout_div, .button_div{
   width: 90%;
   max-width: 400px;
 }
@@ -55,7 +54,7 @@ h1{
   text-align: center;
 }
 
-.input_text_div{
+.inout_div{
   margin: auto;
   margin-top: 20px;
   font-size: 40px;
@@ -78,14 +77,6 @@ input[type=text]:focus {
   color: #BEBEBE;
 }
 
-.answer_div{
-  margin: auto;
-  margin-top: 20px;
-  height: 60px;
-  text-align: center;
-  padding-top: 5px;
-  font-size: 40px;
-}
 input[type=text].ans_help{
   background-color: #008080;
 }
@@ -115,6 +106,9 @@ input[type=button]:hover{
 input[type=button]:hover.show_answer_btn{
   background-color:#008080;
 }
+input[type=button]:hover.switch_btn{
+  background-color:#008080;
+}
 input[type=button]:hover.more_btn{
   background-color:  #c8981e;
 }
@@ -126,24 +120,12 @@ input[type=button]:hover.user_answer_btn{
    input{
     font-size: 20px;
   }
-
-  .bottom{
-    position: fixed;
-    right: -25px;
-    top:0;
-    width: 70px;
-    height: 70px;
-    overflow: hidden;
-  }
-  .bottom:hover{
-    right: 0;
-  }
-  .button_div{
-    white-space:normal;
-  }
   input[type=button]{
     width: 100%;
     margin-bottom: 10PX;
     height: 40PX;
+  }
+  .button_div{
+    white-space:normal;
   }
 }

@@ -1,20 +1,15 @@
 const kana_print_div = document.getElementById("kana_print_div");
 const kana_print = document.getElementById("kana_print");
 
-const answer_div = document.getElementById("answer_div");
-const ans_help_print = document.getElementById("ans_help_print");
-const ans_res_print = document.getElementById("ans_res_print");
-
-const input_text_div = document.getElementById("input_text_div");
-const userans_txtinput = document.getElementById("userans_txtinput");
+const inout_div = document.getElementById("inout_div");
+const inout_txt = document.getElementById("inout_txt");
 
 const button_div = document.getElementById("button_div");
 const hiragana_start_btn = document.getElementById("hiragana_start_btn");
 const katakana_start_btn = document.getElementById("katakana_start_btn");
 const show_answer_btn = document.getElementById("show_answer_btn");
 const user_answer_btn = document.getElementById("user_answer_btn");
-const hiragana_more_btn = document.getElementById("hiragana_more_btn");
-const katakana_more_btn = document.getElementById("katakana_more_btn");
+const more_btn = document.getElementById("more_btn");
 const switch_btn = document.getElementById("switch_btn");
 
 const hiraganakatakana = [
@@ -88,77 +83,59 @@ function hide (element){
     element.disabled = true;
     element.classList.add('hidden');
 }
-function restart_ans(){
-    answer_div.classList.remove(
-        'ans_help_print', 'answer_show_correct', 'answer_show_wrong');
-    ans_res_print.innerHTML = ""; 
-    ans_help_print.innerHTML = "";
-}
-function hiragana_start(option){ //Iniciar
+
+function start(option){ //Iniciar
     op = option;
     pick_kana = Math.floor(Math.random() * 46);
     my_hiragana = hiraganakatakana [pick_kana] [option];
     my_romanji = hiraganakatakana  [pick_kana] ["romanji"];
-    console.log(pick_kana + "" + my_hiragana + "" + my_romanji);
-    //restart_ans();
-    userans_txtinput.className = '';
-    userans_txtinput.disabled = false;
-    show_arr = [
-        kana_print, kana_print_div,  
-        input_text_div, userans_txtinput, 
-        user_answer_btn, show_answer_btn
-    ].forEach(show);
-    hide_arr = [
-        //answer_div, ans_help_print,
-        hiragana_more_btn, switch_btn,
-        hiragana_start_btn, katakana_start_btn
-    ].forEach(hide);
+
+    show_arr = [ kana_print, kana_print_div,  inout_div, inout_txt, user_answer_btn, show_answer_btn ].forEach(show);
+    hide_arr = [ more_btn, switch_btn, hiragana_start_btn, katakana_start_btn ].forEach(hide);
+
     kana_print.innerHTML = my_hiragana;
-    userans_txtinput.focus();
-    userans_txtinput.select();
-    userans_txtinput.value = "";
+
+    inout_txt.className = '';
+    inout_txt.disabled = false;
+    inout_txt.focus();
+    inout_txt.select();
+    inout_txt.value = "";
+
     if (op === 'hiragana'){
-        switch_btn.onclick = function(){ hiragana_start('katakana'); }
+        more_btn.onclick = function(){ start('hiragana'); }
+        switch_btn.onclick = function(){ start('katakana'); }
         switch_btn.value = "Try Katakana";
     }
     else{
-        switch_btn.onclick = function(){ hiragana_start('hiragana'); }
+        more_btn.onclick = function(){ start('katakana'); }
+        switch_btn.onclick = function(){ start('hiragana'); }
         switch_btn.value = "Try Hiragana";
     }
-    
 }
 
 function show_answer(){
-    show_arr = [
-        /*answer_div, ans_help_print, */hiragana_more_btn, switch_btn
-    ].forEach(show);
-    userans_txtinput.className = '';
-    userans_txtinput.classList.add('ans_help');
-    userans_txtinput.value = "It's " + my_romanji;
-    userans_txtinput.disabled = true;
-    hide_arr = [
-        show_answer_btn, user_answer_btn,  
-        //input_text_div, userans_txtinput
-    ].forEach(hide);
-    hiragana_more_btn.onclick = function() { hiragana_start(op); };
+    show_arr = [ more_btn, switch_btn ].forEach(show);
+    hide_arr = [ show_answer_btn, user_answer_btn ].forEach(hide);
+    
+    inout_txt.className = '';
+    inout_txt.classList.add('ans_help');
+    inout_txt.value = "It's " + my_romanji;
+    inout_txt.disabled = true;
 }
 
 function answer(){
-    hide_arr = [
-        //input_text_div, userans_txtinput,
-        show_answer_btn, user_answer_btn
-    ].forEach(hide);
-    show_arr = [
-        /*answer_div, ans_res_print,*/ hiragana_more_btn, switch_btn
-    ].forEach(show);
-    userans_txtinput.className = '';
-    if (userans_txtinput.value === my_romanji){
-        userans_txtinput.value = "Yes, it's " + my_romanji;
-        userans_txtinput.classList.add('answer_show_correct');
+    show_arr = [ more_btn, switch_btn ].forEach(show);
+    hide_arr = [ show_answer_btn, user_answer_btn ].forEach(hide);
+
+    inout_txt.className = '';
+    inout_txt.disabled = true;
+    inout_txt_lowerCase = inout_txt.value.toLowerCase();
+    if (inout_txt_lowerCase === my_romanji){
+        inout_txt.value = "Yes, it's " + my_romanji;
+        inout_txt.classList.add('answer_show_correct');
     }
     else{
-        userans_txtinput.value = "No, it's " + my_romanji;
-        userans_txtinput.classList.add('answer_show_wrong');
+        inout_txt.value = "No, it's " + my_romanji;
+        inout_txt.classList.add('answer_show_wrong');
     }
-    hiragana_more_btn.onclick = function() { hiragana_start(op); }
 }
