@@ -15,7 +15,7 @@ const show_answer_btn = document.getElementById("show_answer_btn");
 const user_answer_btn = document.getElementById("user_answer_btn");
 const hiragana_more_btn = document.getElementById("hiragana_more_btn");
 const katakana_more_btn = document.getElementById("katakana_more_btn");
-const kata_btn = document.getElementById("kata_btn");
+const switch_btn = document.getElementById("switch_btn");
 
 const hiraganakatakana = [
     { hiragana: 'あ', katakana: 'ア', romanji: 'a' },
@@ -100,15 +100,17 @@ function hiragana_start(option){ //Iniciar
     my_hiragana = hiraganakatakana [pick_kana] [option];
     my_romanji = hiraganakatakana  [pick_kana] ["romanji"];
     console.log(pick_kana + "" + my_hiragana + "" + my_romanji);
-    restart_ans();
+    //restart_ans();
+    userans_txtinput.className = '';
+    userans_txtinput.disabled = false;
     show_arr = [
         kana_print, kana_print_div,  
         input_text_div, userans_txtinput, 
-        user_answer_btn, show_answer_btn, kata_btn
+        user_answer_btn, show_answer_btn
     ].forEach(show);
     hide_arr = [
-        answer_div, ans_help_print,
-        hiragana_more_btn,
+        //answer_div, ans_help_print,
+        hiragana_more_btn, switch_btn,
         hiragana_start_btn, katakana_start_btn
     ].forEach(hide);
     kana_print.innerHTML = my_hiragana;
@@ -116,44 +118,47 @@ function hiragana_start(option){ //Iniciar
     userans_txtinput.select();
     userans_txtinput.value = "";
     if (op === 'hiragana'){
-        kata_btn.onclick = function(){ hiragana_start('katakana'); }
-        kata_btn.value = "Try Katakana";
+        switch_btn.onclick = function(){ hiragana_start('katakana'); }
+        switch_btn.value = "Try Katakana";
     }
     else{
-        kata_btn.onclick = function(){ hiragana_start('hiragana'); }
-        kata_btn.value = "Try Hiragana";
+        switch_btn.onclick = function(){ hiragana_start('hiragana'); }
+        switch_btn.value = "Try Hiragana";
     }
     
 }
 
 function show_answer(){
     show_arr = [
-        answer_div, ans_help_print, hiragana_more_btn
+        /*answer_div, ans_help_print, */hiragana_more_btn, switch_btn
     ].forEach(show);
-    answer_div.classList.add('ans_help');
-    ans_help_print.innerHTML = my_romanji;
+    userans_txtinput.className = '';
+    userans_txtinput.classList.add('ans_help');
+    userans_txtinput.value = "It's " + my_romanji;
+    userans_txtinput.disabled = true;
     hide_arr = [
         show_answer_btn, user_answer_btn,  
-        input_text_div, userans_txtinput
+        //input_text_div, userans_txtinput
     ].forEach(hide);
     hiragana_more_btn.onclick = function() { hiragana_start(op); };
 }
 
 function answer(){
     hide_arr = [
-        input_text_div, userans_txtinput,
+        //input_text_div, userans_txtinput,
         show_answer_btn, user_answer_btn
     ].forEach(hide);
     show_arr = [
-        answer_div, ans_res_print, hiragana_more_btn
+        /*answer_div, ans_res_print,*/ hiragana_more_btn, switch_btn
     ].forEach(show);
+    userans_txtinput.className = '';
     if (userans_txtinput.value === my_romanji){
-        ans_res_print.innerHTML = "Bueno";
-        answer_div.classList.add('answer_show_correct');
+        userans_txtinput.value = "Yes, it's " + my_romanji;
+        userans_txtinput.classList.add('answer_show_correct');
     }
     else{
-        ans_res_print.innerHTML = "Malo. Respuesta: " + my_romanji;
-        answer_div.classList.add('answer_show_wrong');
+        userans_txtinput.value = "No, it's " + my_romanji;
+        userans_txtinput.classList.add('answer_show_wrong');
     }
     hiragana_more_btn.onclick = function() { hiragana_start(op); }
 }
